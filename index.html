@@ -17,87 +17,83 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
             margin: 0;
-            display: flex;
+            padding-bottom: 70px; /* لترك مساحة للتبويبات السفلية */
         }
 
-        /* القائمة الجانبية - Sidebar */
-        .sidebar {
-            width: 250px;
-            background-color: var(--primary-color);
-            height: 100vh;
-            color: white;
-            padding: 20px;
+        /* التبويبات السفلية - Bottom Navigation */
+        .bottom-nav {
             position: fixed;
-            right: 0;
-        }
-
-        .sidebar h2 {
-            text-align: center;
-            font-size: 1.2rem;
-            border-bottom: 1px solid #444;
-            padding-bottom: 10px;
-        }
-
-        .sidebar nav ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .sidebar nav ul li {
-            padding: 15px;
-            cursor: pointer;
-            transition: 0.3s;
+            bottom: 0;
+            width: 100%;
+            background-color: var(--primary-color);
             display: flex;
-            align-items: center;
-            gap: 10px;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
         }
 
-        .sidebar nav ul li:hover {
-            background-color: var(--accent-color);
+        .bottom-nav div {
+            color: white;
+            text-align: center;
+            font-size: 0.7rem;
+            cursor: pointer;
+        }
+
+        .bottom-nav div i {
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 3px;
+        }
+
+        .bottom-nav div:hover {
+            color: var(--accent-color);
         }
 
         /* المحتوى الرئيسي */
         .main-content {
-            margin-right: 250px;
-            padding: 30px;
+            padding: 15px;
             width: 100%;
+            box-sizing: border-box;
         }
 
         /* بطاقات الملخص */
         .summary-cards {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
         .card {
             background: white;
-            padding: 20px;
+            padding: 15px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             text-align: center;
         }
 
-        .card h3 { margin: 0; font-size: 0.9rem; color: #777; }
-        .card p { font-size: 1.5rem; font-weight: bold; margin: 10px 0; color: var(--primary-color); }
+        .card h3 { margin: 0; font-size: 0.8rem; color: #777; }
+        .card p { font-size: 1.1rem; font-weight: bold; margin: 5px 0; color: var(--primary-color); }
 
         /* الجدول */
         .table-container {
             background: white;
-            padding: 20px;
+            padding: 10px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            overflow-x: auto;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 10px;
+            font-size: 0.85rem;
         }
 
         th, td {
-            padding: 12px;
+            padding: 8px;
             border: 1px solid #ddd;
             text-align: center;
         }
@@ -108,10 +104,12 @@
             background-color: #27ae60;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 8px 15px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.9rem;
+            width: 100%;
+            margin-bottom: 15px;
         }
 
         .file-input { display: none; }
@@ -120,50 +118,38 @@
 </head>
 <body>
 
-    <div class="sidebar">
-        <h2>Tigris Roses Co</h2>
-        <nav>
-            <ul>
-                <li><i class="fas fa-home"></i> الرئيسية</li>
-                <li><i class="fas fa-file-alt"></i> التقرير (Reports)</li>
-                <li><i class="fas fa-shopping-cart"></i> وصولات LM</li>
-                <li><i class="fas fa-exchange-alt"></i> OR -> OPS</li>
-                <li><i class="fas fa-pen-nib"></i> وصولات S -> BS</li>
-                <li><i class="fas fa-users"></i> المستخدمين</li>
-            </ul>
-        </nav>
-    </div>
-
     <div class="main-content">
-        <header style="display: flex; justify-content: space-between; align-items: center;">
-            <h1>تقرير العمليات (OPS)</h1>
-            <button class="btn-add" onclick="addNewRow()">+ إضافة وصل جديد</button>
+        <header>
+            <h2 style="font-size: 1.2rem; text-align: center;">TIGRIS ROSES COMPANY</h2>
+            <p style="text-align: center; font-size: 0.9rem; color: #666;">عقد رقم: CN103014 | طلب رقم: OR142394</p>
         </header>
 
         <div class="summary-cards">
-            <div class="card">
-                <h3>المبلغ الكلي للعقد</h3>
-                <p id="total-contract">10,000,000</p>
+            <div class="card" style="grid-column: span 2;">
+                <h3>المبلغ الكلي للطلب (OR)</h3>
+                <p id="total-contract">240,000</p>
             </div>
             <div class="card">
-                <h3>إجمالي المصروف</h3>
+                <h3>المصروف + ضريبة 7.2%</h3>
                 <p id="total-consumed" style="color: #e74c3c;">0</p>
             </div>
             <div class="card">
                 <h3>المبلغ المتبقي</h3>
-                <p id="remaining-value" style="color: #27ae60;">10,000,000</p>
+                <p id="remaining-value" style="color: #27ae60;">0</p>
             </div>
         </div>
+
+        <button class="btn-add" onclick="addNewRow()">+ إضافة وصل جديد</button>
 
         <div class="table-container">
             <table>
                 <thead>
                     <tr>
-                        <th>ت</th>
+                        <th>رقم الطلب</th>
                         <th>المبلغ</th>
-                        <th>رقم الوصل</th>
+                        <th>الوصل</th>
                         <th>ملاحظات</th>
-                        <th>الملف (أرشفة)</th>
+                        <th>أرشفة</th>
                     </tr>
                 </thead>
                 <tbody id="invoice-body">
@@ -172,27 +158,48 @@
         </div>
     </div>
 
+    <div class="bottom-nav">
+        <div><i class="fas fa-home"></i>الرئيسية</div>
+        <div><i class="fas fa-file-alt"></i>التقارير</div>
+        <div><i class="fas fa-shopping-cart"></i>LM</div>
+        <div><i class="fas fa-pen-nib"></i>S -> BS</div>
+        <div><i class="fas fa-users"></i>الملف</div>
+    </div>
+
     <script>
-        let invoices = [];
-        const contractTotal = 10000000;
+        // البيانات المستخرجة من الجدول الذي أرفقته
+        let invoices = [
+            { req: "LM575", amount: 32, no: "BECL-24-584", notes: "تم الاستلام", fileName: "" },
+            { req: "LM525", amount: 670, no: "", notes: "تم الاستلام", fileName: "" },
+            { req: "LM526", amount: 1100, no: "", notes: "تم الاستلام", fileName: "" },
+            { req: "LM528", amount: 1596, no: "", notes: "تم الاستلام", fileName: "" },
+            { req: "LM609", amount: 1365, no: "", notes: "تم الاستلام", fileName: "" },
+            { req: "LM610", amount: 910, no: "", notes: "تم الاستلام", fileName: "" },
+            { req: "LM586", amount: 390, no: "", notes: "تم الاستلام", fileName: "" },
+            { req: "LM612", amount: 520, no: "", notes: "تم الاستلام", fileName: "" },
+            { req: "LM621", amount: 2380, no: "", notes: "تم الاستلام", fileName: "" },
+            { req: "LM588", amount: 1440, no: "", notes: "تم الاستلام", fileName: "" }
+        ];
+
+        const contractTotal = 240000;
+        const adminFeeRate = 0.072; // نسبة 7.2%
 
         function renderTable() {
             const tbody = document.getElementById('invoice-body');
             tbody.innerHTML = '';
-            let consumed = 0;
+            let rawConsumed = 0;
 
             invoices.forEach((inv, index) => {
-                consumed += parseFloat(inv.amount || 0);
+                rawConsumed += parseFloat(inv.amount || 0);
                 tbody.innerHTML += `
                     <tr>
-                        <td>${index + 1}</td>
-                        <td><input type="number" value="${inv.amount}" onchange="updateAmount(${index}, this.value)" style="width: 100px; text-align: center;"></td>
-                        <td><input type="text" value="${inv.no}" onchange="updateNo(${index}, this.value)" style="width: 100px; text-align: center;"></td>
-                        <td><input type="text" value="${inv.notes}" onchange="updateNotes(${index}, this.value)"></td>
+                        <td><input type="text" value="${inv.req}" onchange="updateReq(${index}, this.value)" style="width: 50px; border:none; text-align:center;"></td>
+                        <td><input type="number" value="${inv.amount}" onchange="updateAmount(${index}, this.value)" style="width: 60px; border:none; text-align:center;"></td>
+                        <td><input type="text" value="${inv.no}" onchange="updateNo(${index}, this.value)" style="width: 80px; border:none; text-align:center;"></td>
+                        <td><input type="text" value="${inv.notes}" onchange="updateNotes(${index}, this.value)" style="width: 70px; border:none;"></td>
                         <td>
                             <label class="attach-btn">
-                                <i class="fas fa-paperclip"></i> 
-                                ${inv.fileName ? inv.fileName : 'إرفاق ملف'}
+                                <i class="fas fa-paperclip"></i>
                                 <input type="file" class="file-input" onchange="handleFile(${index}, this)">
                             </label>
                         </td>
@@ -200,34 +207,31 @@
                 `;
             });
 
-            // تحديث الحسابات
-            document.getElementById('total-consumed').innerText = consumed.toLocaleString();
-            document.getElementById('remaining-value').innerText = (contractTotal - consumed).toLocaleString();
+            // الحسابات النهائية مع الضريبة
+            let totalWithFee = rawConsumed + (rawConsumed * adminFeeRate);
+            let remaining = contractTotal - totalWithFee;
+
+            document.getElementById('total-consumed').innerText = totalWithFee.toLocaleString(undefined, {minimumFractionDigits: 2});
+            document.getElementById('remaining-value').innerText = remaining.toLocaleString(undefined, {minimumFractionDigits: 2});
         }
 
         function addNewRow() {
-            invoices.push({ amount: 0, no: '', notes: '', fileName: '' });
+            invoices.push({ req: '', amount: 0, no: '', notes: '', fileName: '' });
             renderTable();
         }
 
-        function updateAmount(index, val) {
-            invoices[index].amount = parseFloat(val) || 0;
-            renderTable();
-        }
-
+        function updateAmount(index, val) { invoices[index].amount = parseFloat(val) || 0; renderTable(); }
+        function updateReq(index, val) { invoices[index].req = val; }
         function updateNo(index, val) { invoices[index].no = val; }
         function updateNotes(index, val) { invoices[index].notes = val; }
 
         function handleFile(index, input) {
             if (input.files && input.files[0]) {
-                invoices[index].fileName = input.files[0].name;
-                renderTable();
-                alert('تم اختيار الملف: ' + input.files[0].name + ' (جاهز للرفع)');
+                alert('تم اختيار الملف: ' + input.files[0].name);
             }
         }
 
-        // إضافة أول سطر عند التشغيل
-        addNewRow();
+        renderTable();
     </script>
 </body>
 </html>
