@@ -50,6 +50,37 @@
             color: var(--accent-color);
         }
 
+        /* القائمة المنبثقة للخيارات */
+        .options-menu {
+            display: none;
+            position: fixed;
+            bottom: 70px;
+            right: 10px;
+            background: white;
+            width: 200px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            z-index: 2000;
+            border: 1px solid #ddd;
+        }
+
+        .options-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .options-menu li {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .options-menu li:last-child { border-bottom: none; }
+
         /* المحتوى الرئيسي */
         .main-content {
             padding: 15px;
@@ -118,6 +149,17 @@
 </head>
 <body>
 
+    <div id="main-options" class="options-menu">
+        <ul>
+            <li>Home <span>→ ops</span></li>
+            <li>Report <span>→ Bs</span></li>
+            <li>InVose LM</li>
+            <li>OR <span>→ ops</span></li>
+            <li>InVose S <span>→ Bs</span></li>
+            <li>User</li>
+        </ul>
+    </div>
+
     <div class="main-content">
         <header>
             <h2 style="font-size: 1.2rem; text-align: center;">TIGRIS ROSES COMPANY</h2>
@@ -159,7 +201,7 @@
     </div>
 
     <div class="bottom-nav">
-        <div><i class="fas fa-home"></i>الرئيسية</div>
+        <div onclick="toggleMenu()"><i class="fas fa-home"></i>الرئيسية</div>
         <div><i class="fas fa-file-alt"></i>التقارير</div>
         <div><i class="fas fa-shopping-cart"></i>LM</div>
         <div><i class="fas fa-pen-nib"></i>S -> BS</div>
@@ -167,7 +209,19 @@
     </div>
 
     <script>
-        // البيانات المستخرجة من الجدول الذي أرفقته
+        // دالة إظهار وإخفاء القائمة
+        function toggleMenu() {
+            const menu = document.getElementById('main-options');
+            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+        }
+
+        // إغلاق القائمة عند الضغط خارجها
+        window.onclick = function(event) {
+            if (!event.target.closest('.bottom-nav') && !event.target.closest('.options-menu')) {
+                document.getElementById('main-options').style.display = 'none';
+            }
+        }
+
         let invoices = [
             { req: "LM575", amount: 32, no: "BECL-24-584", notes: "تم الاستلام", fileName: "" },
             { req: "LM525", amount: 670, no: "", notes: "تم الاستلام", fileName: "" },
@@ -207,7 +261,6 @@
                 `;
             });
 
-            // الحسابات النهائية مع الضريبة
             let totalWithFee = rawConsumed + (rawConsumed * adminFeeRate);
             let remaining = contractTotal - totalWithFee;
 
